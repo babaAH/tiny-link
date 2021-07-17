@@ -62,13 +62,32 @@ class LinkController extends Controller
     }
 
     /**
-     * Update the specified link by alias.
-     *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function updateAlias()
+    public function updateAlias(Request $request, $id)
     {
-        //todo
+        $val = \Validator::make($request->all, [
+            "id" => "exists:links,id",
+            "title" => "string",
+            "description" => "string",
+            "url_link" => "url"
+        ]);
+
+        if($val->fails()){
+            dd($val->errors);
+        }
+
+        $link = Link::when($request->title, function($query) use($request){
+            $query->update(["title" => $request->title]);
+        })->when($request->description, function($query) use($request){
+            $query->update(["description" => $request->description]);
+        })->when($request->url_link, function($query) use($request){
+            $query->update(["url" => $request->url_link]);
+        })->where("id", $id);
+
+        return view("show-alias", compact("link"));
     }
 
     /**
@@ -77,9 +96,12 @@ class LinkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function deleteAlias($id)
+    public function deleteAlias(Request $request, $id)
     {
-        //todo
+        $link = Link::findOrFail($id);
+        $link->delete();
+
+        return response()->route("alias.aliases");
     }
 
     /**
