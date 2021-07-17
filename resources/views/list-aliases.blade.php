@@ -15,7 +15,7 @@
             @foreach($links as $link)
                 <tr>
                     <th scope="row">{{ $link->id }}</th>
-                    <td>{{ route('tiny-link', ['alias' => $link->alias]) }}</td>
+                    <td><label class="js-alias-links">{{ route('tiny-link', ['alias' => $link->alias]) }}</label> </td>
                     <td>{{ $link->title }}</td>
                     <td><a href="{{ $link->url }}">Перейти</a></td>
                 </tr>
@@ -23,4 +23,9 @@
             </tbody>
         </table>
     </div>
+@endsection
+
+@section("scripts")
+    <script src="{{ asset("js/aliasLinkToClipboard.js") }}"></script>
+
 @endsection
