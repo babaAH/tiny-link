@@ -95,8 +95,11 @@ class LinkController extends Controller
         $latest = Link::latest()->first();
 
         if($latest){
+            $alias = $latest->alias;
+            ++$alias;
+
             $link = Link::create([
-                "alias" => "",
+                "alias" => $alias,
                 "url" => $request->url_link,
                 "title" => $request->title,
             ]);
