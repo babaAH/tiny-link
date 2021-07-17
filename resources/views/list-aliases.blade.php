@@ -15,7 +15,7 @@
             @foreach($links as $link)
                 <tr>
                     <th scope="row">{{ $link->id }}</th>
-                    <td><a href="{{ route("tiny-link", ["alias" => $link->alias]) }}"></a>{{ $link->alias }}</td>
+                    <td>{{ route('tiny-link', ['alias' => $link->alias]) }}</td>
                     <td>{{ $link->title }}</td>
                     <td><a href="{{ $link->url }}">Перейти</a></td>
                 </tr>
