@@ -9,6 +9,7 @@
                 <th scope="col">Алиас</th>
                 <th scope="col">Название</th>
                 <th scope="col">Ссылка</th>
+                <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
@@ -18,6 +19,12 @@
                     <td><label class="js-alias-links">{{ route('tiny-link', ['alias' => $link->alias]) }}</label> </td>
                     <td><a href="{{ route('alias.show-update-form', [ 'id' => $link->id ]) }}">{{ $link->title }}</a></td>
                     <td><a href="{{ $link->url }}">Перейти</a></td>
+                    <td>
+                        <form action="{{route('alias.delete-alias', [ 'id' => $link->id ])}}" method="POST">
+                            @csrf
+                            <button class="btn btn-danger">Удалить</button>
+                        </form>
+                    </td>
                 </tr>
             @endforeach
             </tbody>

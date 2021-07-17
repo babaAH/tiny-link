@@ -9,10 +9,8 @@ use Illuminate\Support\Facades\Redirect;
 class LinkController extends Controller
 {
     /**
-     * Redirect the specified link by alias.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response || \Illuminate\Support\Facades\Redirect
+     * @param $alias
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function redirect($alias)
     {
@@ -29,7 +27,7 @@ class LinkController extends Controller
      * Redirect the specified link by alias.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function index()
     {
@@ -90,17 +88,16 @@ class LinkController extends Controller
     }
 
     /**
-     * Delete the specified link by alias.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function deleteAlias(Request $request, $id)
     {
         $link = Link::findOrFail($id);
         $link->delete();
 
-        return response()->route("alias.aliases");
+        return redirect()->route("alias.aliases");
     }
 
     /**
