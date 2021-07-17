@@ -16,12 +16,16 @@
                 <tr>
                     <th scope="row">{{ $link->id }}</th>
                     <td><label class="js-alias-links">{{ route('tiny-link', ['alias' => $link->alias]) }}</label> </td>
-                    <td>{{ $link->title }}</td>
+                    <td><a href="{{ route('alias.show-update-form', [ 'id' => $link->id ]) }}">{{ $link->title }}</a></td>
                     <td><a href="{{ $link->url }}">Перейти</a></td>
                 </tr>
             @endforeach
             </tbody>
         </table>
+
+    </div>
+    <div class="d-flex justify-content-center">
+        {{ $links->links() }}
     </div>
 @endsection
 

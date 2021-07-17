@@ -33,7 +33,7 @@ class LinkController extends Controller
      */
     public function index()
     {
-        $links = Link::paginate();
+        $links = Link::paginate(5);
 
         return view("list-aliases", compact("links"));
     }
@@ -51,43 +51,42 @@ class LinkController extends Controller
     }
 
     /**
-     * Redirect the specified link by alias.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function showUpdateForm($id)
     {
-        //todo
+        $link = Link::findOrFail($id);
+
+        return view("update-alias", compact("link"));
     }
 
     /**
      * @param Request $request
      * @param $id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */
     public function updateAlias(Request $request, $id)
     {
-        $val = \Validator::make($request->all, [
+        $val = \Validator::make($request->all(), [
             "id" => "exists:links,id",
             "title" => "string",
-            "description" => "string",
             "url_link" => "url"
         ]);
 
         if($val->fails()){
-            dd($val->errors);
+            return Redirect::back()->withErrors($val);
         }
 
-        $link = Link::when($request->title, function($query) use($request){
-            $query->update(["title" => $request->title]);
-        })->when($request->description, function($query) use($request){
-            $query->update(["description" => $request->description]);
-        })->when($request->url_link, function($query) use($request){
-            $query->update(["url" => $request->url_link]);
-        })->where("id", $id);
+        Link::where("id", $id)->update([
+            "title" => $request->title,
+            "description" => $request->description ?? "" ,
+            "url" => $request->url_link ?? ""
+        ]);
 
-        return view("show-alias", compact("link"));
+        $link = Link::find($id);
+
+        return view("update-alias", compact("link"));
     }
 
     /**
