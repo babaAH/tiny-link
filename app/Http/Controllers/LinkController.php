@@ -33,7 +33,9 @@ class LinkController extends Controller
      */
     public function index()
     {
-        //todo
+        $links = Link::paginate();
+
+        return view("list-aliases", compact("links"));
     }
 
     /**
@@ -82,12 +84,31 @@ class LinkController extends Controller
 
     /**
      * Create the specified link by alias.
-     *
-     * @return \Illuminate\Http\Response || \Illuminate\Support\Facades\Redirect
      */
-    public function createAlias()
+    public function createAlias(Request $request)
     {
-        //todo
+        $request->validate([
+            "url_link" => "required|url",
+            "title" => "required|string"
+        ]);
+
+        $latest = Link::latest()->first();
+
+        if($latest){
+            $link = Link::create([
+                "alias" => "",
+                "url" => $request->url_link,
+                "title" => $request->title,
+            ]);
+        }else{
+            $link = Link::create([
+                "alias" => "aaa",
+                "url" => $request->url_link,
+                "title" => $request->title,
+            ]);
+        }
+
+        return view("show-alias", compact("link"));
     }
 
     public function showCreateAliasForm()

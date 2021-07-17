@@ -21,10 +21,10 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get("alias/{alias}", "\App\Http\Controllers\LinkController@redirect");
+Route::get("alias/{alias}", "\App\Http\Controllers\LinkController@redirect")->name("tiny-link");
 
 Route::middleware(["auth"])->prefix("admin")->group(function(){
-    Route::get("/", "\App\Http\Controllers\LinkController@getDashboard")->name("alias.aliases");
+    Route::get("/", "\App\Http\Controllers\LinkController@getDashboard")->name("alias.dashboard");
     Route::get("aliases", "\App\Http\Controllers\LinkController@index")->name("alias.aliases");
     Route::get("aliases/{id}", "\App\Http\Controllers\LinkController@show")->name("alias.alias");
     Route::get("update-alias/{id}", "\App\Http\Controllers\LinkController@showUpdateForm")->name("alias.show-update-form");

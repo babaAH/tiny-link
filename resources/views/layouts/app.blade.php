@@ -33,7 +33,14 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        @auth
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route("alias.aliases")}}"> Список алиасов </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route("alias.create-alias-form")}}"> Создать алиас </a>
+                        </li>
+                        @endauth
                     </ul>
 
                     <!-- Right Side Of Navbar -->
